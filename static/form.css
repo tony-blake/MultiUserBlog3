@@ -1,0 +1,28 @@
+form {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+}
+
+.form-inline {
+    margin-right: 0;
+}
+
+.help-inline {
+    color: red;
+}
+
+.write-comment {
+    display: none;
+}
+
+textarea {
+    min-height: 200px;
+}
+
+@media screen and (min-width: 550px) {
+    form {
+        width: 450px;
+    }
+}

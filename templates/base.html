@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>The Buffy and Spike Blog</title>
+    {% block jquery %} <!-- Load jQuery here if necessary -->
+    {% endblock %}
+    <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" integrity="sha384-2hfp1SzUoho7/TsGGGDaFdsuuDL0LX2hnUp6VkX3CUQ2K4K+xjboZdsXyp4oUHZj" crossorigin="anonymous"-->
+    
+    {% block bootstrap_js %} <!-- If specified in template, bootstrap js will load here -->
+    {% endblock %}
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/font-awesome-4.6.3/css/font-awesome.min.css">
+
+    {% block styles %} <!-- Page-specific style sheets will be imported here by Jinja2 -->
+    {% endblock %}
+    {% block javascript %} <!-- Page-specific javascript files will appear here -->
+    {% endblock %}
+</head>
+<!--body class="container">
+<header class="header row">
+    <div class="title col-xs-4">
+        <a href="/"><h1>Blahg</h1></a>
+
+        </div>
+    <div class="user-options col-xs-8">
+       {% if current_user %}
+            <a class="btn btn-outline-primary" href="/new">New Post</a>
+            <a class="btn btn-outline-secondary" href="/logout">Logout</a>
+        {% else %}
+            <a class="btn btn-outline-secondary" href="/login">Login</a>
+            <a class="btn btn-outline-secondary" href="/signup">Signup</a>
+        {% endif %}
+    </div>
+</header-->
+
+
+
+
+
+
+
+<body>
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                        <div class="navbar-header">
+                            <a href="/"><h3>The Buffy and Spike Blog</h3></a>
+                        </div>
+                        <ul class="nav navbar-nav navbar-right">
+                            {% if not user %}
+                                <li><a style="color:white" href="/login">Login</a></li>
+                                <li><a style="color:white" href="/signup">Register</a></li>
+                            {% elif user %}
+                                <li><a style="color:white" href="/new">New Post</a></li>
+                                <li><a style="color:white" href="/logout">Logout</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                {% block content %} <!-- Main content of the page will be imported here -->
+                {% endblock %}
+    
+               
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block styles %}
+    <link rel="stylesheet" href="static/dist/allblogs.min.css">
+{% endblock %}
+
+{% block message %}
+    {% if message %}
+        <div class="alert alert-info" role="alert">
+          {{message}}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <main class="blog-posts">
+        {% for post in posts %}
+            <article class="post">
+
+                <div class="post-title-row row">
+                    <div class="col-sm-8 col-xs-12">
+                        <a href="/post/{{post.author}}/{{post.key().id()}}"><h3 class="post-title">{{post.title}}<span class="author">  by: {{post.author}}</span></h3></a>
+                    </div>
+                    <div class="post-date col-sm-4 col-xs-12">
+                        <small class="post-date-text">{{post.created.strftime("%b %d, %Y")}}</small>
+                    </div>
+                </div>
+                <div class="post-content row">
+                    <p class="post-content">{{post._render_text | safe}}</p>
+                </div>
+                <div class="post-footer row">
+                    <a href="/post/{{post.author}}/{{post.key().id()}}"><small class="comment-number">{{post._num_comments}} <i class="fa fa-comment" aria-hidden="true"></i></small>
+                    <small class="like-number">{{post.likes}}  <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></small></a>
+                </div>
+
+            </article>
+        {% endfor %}
+    </main>
+{% endblock %}

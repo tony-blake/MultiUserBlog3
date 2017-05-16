@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block jquery %}
+    <script src="/static/jquery-3.1.1.slim.min.js"></script>
+{% endblock %}
+
+{% block bootstrap_js %}
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/js/bootstrap.min.js" integrity="sha384-VjEeINv9OSwtWFLAtmc4JCtEJXXBub00gtSnszmspDLCtC0I4z4nqz7rEFbIZLLU" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/static/dist/viewpost.min.css">
+{% endblock %}
+
+{% block javascript %}
+    <script src="/static/viewpost.js"></script>
+{% endblock %}
+
+{% block content %}
+    <main class="blog-posts">
+        <article class="post">
+
+            <div class="post-title-row row">
+                <div class="col-sm-8 col-xs-12">
+                    <h3 class="post-title">{{post.title}}<span class="author">  by: {{post.author}}</span></h3>
+                </div>
+                <div class="post-date col-sm-4 col-xs-12">
+                    <small class="post-date-text">{{post.created.strftime("%b %d, %Y")}}</small>
+                </div>
+            </div>
+            <div class="post-content row">
+                <p class="post-content">{{post._render_text | safe}}</p>
+            </div>
+            {% if user %}
+                <div class="post-footer row">
+                    <div class="col-xs-12">
+                        {% if user.username == post.author %}
+                            <button class="btn btn-outline-danger" data-toggle="modal" data-target="#delete-post">Delete</button>
+
+                            <a href="/edit/{{post.author}}/{{post.key().id()}}" class="btn btn-outline-warning">Edit</a>
+                        {% endif %}
+                        <button class="btn btn-outline-primary" id="post-comment">Comment   <i class="fa fa-comment" aria-hidden="true"></i></span></button>
+                        <a href="/post/{{post.author}}/{{post.key().id()}}/like/{{user.username}}" class="btn btn-outline-primary">{{post.likes}}  <i class="fa fa-thumbs-o-up" aria-hidden="true"></i></span></a>
+                    </div>
+                </div>
+            {% endif %}
+        </article>
+
+        <!-- .write-comment is hidden by default, and shown
+             when a jquery function is activated -->
+        <div class="write-comment row">
+            <form method="post">
+                <div class="form-group row">
+                    <label for="content" class="col-sm-2 col-xs-12 col-form-label">Comment</label>
+                        <div class="col-sm-10 col-xs-12">
+                            <textarea class="input form-control" name="content" id="content"></textarea>
+                        </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10 offset-sm-2">
+                        <button class="btn btn-outline-primary">Publish</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        {% if comments %}
+            <section class="comments row">
+                {% for comment in comments %}
+                    <div class="comment">
+                        <div class="comment-author-row row">
+                            <div class="col-xs-12">
+                                <h5 class="comment-author">{{comment.author}}   <span class="comment-date">{{comment.created.strftime("%b %d, %Y")}}</span></h5>
+                            </div>
+                        </div>
+                        <div class="comment-content-row row">
+                            <div class="col-xs-12">
+                                <p class="comment-content">{{comment.content}}</p>
+                            </div>
+                        </div>
+                        {% if user.username == comment.author %}
+                            <div class="comment-footer-row row">
+                                <div class="comment-edit col-xs-2">
+                                    <a href="/edit/comment/{{post.author}}/{{post.key().id()}}/{{comment.key().id()}}" class="btn btn-outline-warning btn-sm">Edit</a>
+                                </div>
+                                <div class="comment-delete col-xs-3">
+                                    <form class="comment-delete-form" method="post" action="/del/comment/{{post.author}}/{{post.key().id()}}/{{comment.key().id()}}">
+                                        <button class="btn btn-outline-danger btn-sm">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </section>
+        {% endif %}
+
+    {% if user.username == post.author %}
+
+        <div class="modal fade" id="delete-post">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Delete Post</h4>
+              </div>
+              <div class="modal-body">
+                <p>Are you sure you want to delete this post? Once deleted, the post cannot be recovered&hellip;</p>
+              </div>
+              <div class="modal-footer">
+                <form class="form-inline" method="post" action="/del/{{post.author}}/{{post.key().id()}}">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+    {% endif %}
+
+    </main>
+
+{% endblock %}
