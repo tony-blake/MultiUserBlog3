@@ -18,3 +18,9 @@ Clone this repo and cd into directory
 To view project on local host (http://localhost:8080) run ```dev_appserver.py app.yaml```
 
 To deploy project on Google Cloud run ```gcloud app deploy app.yaml index.yaml```
+
+
+### References
+To address all the model refactoring issues and validation of posts amd comments issures I decidied it would be best to start over again and to that end I followed closely the approach taken by davidhousedev's project. https://github.com/davidhousedev/Multi-User-Blog-Udacity
+
+
